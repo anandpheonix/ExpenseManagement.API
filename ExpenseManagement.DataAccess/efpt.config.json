@@ -1,6 +1,6 @@
 ﻿{
    "CodeGenerationMode": 2,
-   "ContextClassName": "LocalDBContext",
+   "ContextClassName": "ExpensesContext",
    "ContextNamespace": null,
    "DefaultDacpacSchema": null,
    "FilterSchemas": false,
@@ -15,19 +15,15 @@
    "SelectedToBeGenerated": 0,
    "Tables": [
       {
-         "Name": "[dbo].[Learning]",
+         "Name": "[dbo].[Categories]",
          "ObjectType": 0
       },
       {
-         "Name": "[dbo].[Priority]",
-         "ObjectType": 0
-      },
-      {
-         "Name": "[dbo].[Users]",
+         "Name": "[dbo].[Transactions]",
          "ObjectType": 0
       }
    ],
-   "UiHint": "ANANDOMEN16\\SQLEXPRESS.LocalDB",
+   "UiHint": "ANANDOMEN16\\SQLEXPRESS.Expenses",
    "UncountableWords": null,
    "UseBoolPropertiesWithoutDefaultSql": false,
    "UseDatabaseNames": false,

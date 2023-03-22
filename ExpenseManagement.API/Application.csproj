@@ -20,12 +20,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\DataTransfer\DataTransfer.csproj" />
     <ProjectReference Include="..\ExpenseManagement.DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="Mappings\" />
-    <Folder Include="Validators\" />
   </ItemGroup>
 
 </Project>
