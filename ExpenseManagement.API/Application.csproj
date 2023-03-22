@@ -24,8 +24,4 @@
     <ProjectReference Include="..\ExpenseManagement.DataAccess\DataAccess.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Mappings\" />
-  </ItemGroup>
-
 </Project>
