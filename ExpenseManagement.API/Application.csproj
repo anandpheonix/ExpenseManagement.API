@@ -24,7 +24,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Controllers\" />
     <Folder Include="Mappings\" />
     <Folder Include="Validators\" />
   </ItemGroup>
