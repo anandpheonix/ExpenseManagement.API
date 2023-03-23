@@ -1,58 +1,29 @@
-﻿using DataAccess.Models;
+﻿using Application.Controllers.Interfaces;
+using Common;
+using DataAccess.Models;
 using DataAccess.Repositories;
 using DataTransfer.Requests;
 using Microsoft.AspNetCore.Mvc;
+using System.Net;
 
 namespace Application.Controllers;
 
 [ApiController]
-[Route("[action]")]
-public class CategoryController : Controller
+[Route("api/[action]")]
+public class CategoryController : Controller, ICategoryController
 {
+    protected APIResponse _response;
     private readonly ICategoryRepository _categoryRepository;
 
     public CategoryController(ICategoryRepository categoryRepository)
     {
-        this._categoryRepository = categoryRepository;
-    }
-
-    [HttpGet]
-    [ActionName("categories")]
-    public async Task<IActionResult> GetCategories()
-    {
-        try
-        {
-            var results = await _categoryRepository.GetCategories();
-
-            return Ok(results);
-        }
-        catch (Exception)
-        {
-            throw;
-        }
-    }
-
-    [HttpGet]
-    [ActionName("category")]
-    public async Task<IActionResult> GetCategory(int id)
-    {
-        try
-        {
-            var result = await _categoryRepository.GetCategory(id);
-
-            if (result is null) return NotFound();
-
-            return Ok(result);
-        }
-        catch (Exception)
-        {
-            throw;
-        }
+        _categoryRepository = categoryRepository;
+        _response = new();
     }
 
     [HttpPost]
     [ActionName("category/add")]
-    public async Task<IActionResult> AddCategory(CategoryRequest request)
+    public async Task<IActionResult> AddCategory([FromBody] CategoryRequest request)
     {
         try
         {
@@ -64,6 +35,54 @@ public class CategoryController : Controller
             category = await _categoryRepository.AddCategory(category);
 
             return CreatedAtAction(nameof(category), new { id = category.Id }, category);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    [HttpGet]
+    [ActionName("categories")]
+    [ResponseCache(CacheProfileName = "DefaultGet")]
+    [ProducesResponseType(typeof(Categories), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    public async Task<IActionResult> GetCategories()
+    {
+        try
+        {
+            var results = await _categoryRepository.GetCategories();
+
+            if (results is null)
+            {
+                _response.Data = null;
+                _response.StatusCode = HttpStatusCode.NotFound;
+                return NotFound(_response);
+            }
+
+            _response.Data = results;
+            _response.StatusCode = HttpStatusCode.OK;
+
+            return Ok(results);
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+    [HttpGet]
+    [ActionName("category")]
+    [ResponseCache(CacheProfileName = "DefaultGet")]
+    public async Task<IActionResult> GetCategory(int id)
+    {
+        try
+        {
+            var result = await _categoryRepository.GetCategory(id);
+
+            if (result is null) return NotFound();
+
+            return Ok(result);
         }
         catch (Exception)
         {

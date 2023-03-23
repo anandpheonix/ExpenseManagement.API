@@ -26,12 +26,12 @@ namespace DataAccess.Repositories
             return await _dbContext.Categories.ToListAsync();
         }
 
-        public async Task<Categories?> GetCategory(int id)
+        public async Task<Categories> GetCategory(int id)
         {
             return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<Categories?> UpdateCategory(int id, Categories category)
+        public async Task<Categories> UpdateCategory(int id, Categories category)
         {
             var existingCategory = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
 
@@ -47,7 +47,7 @@ namespace DataAccess.Repositories
             return category;
         }
 
-        public async Task<Categories?> DeleteCategory(int id)
+        public async Task<Categories> DeleteCategory(int id)
         {
             var category = await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
 

@@ -2,5 +2,5 @@
 
 public class CategoryRequest
 {
-    public string? Title { get; set; }
+    public string Title { get; set; }
 }

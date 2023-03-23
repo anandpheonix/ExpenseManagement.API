@@ -1,5 +1,4 @@
-﻿#nullable disable
-
+﻿
 namespace DataTransfer.Objects;
 
 public class TransactionDTO

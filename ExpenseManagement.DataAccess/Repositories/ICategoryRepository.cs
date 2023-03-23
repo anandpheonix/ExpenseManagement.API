@@ -8,11 +8,11 @@ namespace DataAccess.Repositories
 
         Task<IEnumerable<Categories>> GetCategories();
 
-        Task<Categories?> GetCategory(int id);
+        Task<Categories> GetCategory(int id);
 
-        Task<Categories?> UpdateCategory(int id, Categories category);
+        Task<Categories> UpdateCategory(int id, Categories category);
 
-        Task<Categories?> DeleteCategory(int id);
+        Task<Categories> DeleteCategory(int id);
 
     }
 }
