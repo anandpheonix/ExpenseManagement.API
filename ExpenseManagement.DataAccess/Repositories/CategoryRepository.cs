@@ -21,14 +21,15 @@ namespace DataAccess.Repositories
             return category;
         }
 
-        public async Task<IEnumerable<Categories>> GetCategories()
+        public async Task<IEnumerable<Categories>> GetCategories(CancellationToken cancellationToken)
         {
-            return await _dbContext.Categories.ToListAsync();
+            await Task.Delay(3000, cancellationToken);
+            return await _dbContext.Categories.ToListAsync(cancellationToken);
         }
 
-        public async Task<Categories> GetCategory(int id)
+        public async Task<Categories> GetCategory(int id, CancellationToken cancellationToken)
         {
-            return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id);
+            return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         public async Task<Categories> UpdateCategory(int id, Categories category)

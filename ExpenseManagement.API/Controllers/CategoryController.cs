@@ -47,11 +47,11 @@ public class CategoryController : Controller, ICategoryController
     [ResponseCache(CacheProfileName = "DefaultGet")]
     [ProducesResponseType(typeof(Categories), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> GetCategories()
+    public async Task<IActionResult> GetCategories(CancellationToken cancellationToken)
     {
         try
         {
-            var results = await _categoryRepository.GetCategories();
+            var results = await _categoryRepository.GetCategories(cancellationToken);
 
             if (results is null)
             {
@@ -65,29 +65,41 @@ public class CategoryController : Controller, ICategoryController
 
             return Ok(results);
         }
-        catch (Exception)
+        catch (OperationCanceledException)
         {
-            throw;
+
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+        return Ok();
     }
 
     [HttpGet]
     [ActionName("category")]
     [ResponseCache(CacheProfileName = "DefaultGet")]
-    public async Task<IActionResult> GetCategory(int id)
+    public async Task<IActionResult> GetCategory(int id, CancellationToken cancellationToken)
     {
         try
         {
-            var result = await _categoryRepository.GetCategory(id);
+            var result = await _categoryRepository.GetCategory(id, cancellationToken);
 
             if (result is null) return NotFound();
 
             return Ok(result);
         }
-        catch (Exception)
+        catch (OperationCanceledException)
         {
-            throw;
+        
         }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+        return Ok();
     }
 
     [HttpPut]

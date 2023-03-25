@@ -1,6 +1,8 @@
 ﻿using DataAccess.DBContext;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
+using System.Threading;
 
 namespace DataAccess.Repositories;
 
@@ -21,9 +23,10 @@ public class TransactionRepository : ITransactionRepository
         return transaction;
     }
 
-    public async Task<IEnumerable<Transactions>> GetTransactions()
+    public async Task<IEnumerable<Transactions>> GetTransactions(CancellationToken cancellationToken)
     {
-        return await _dbContext.Transactions.ToListAsync();
+        await Task.Delay(3000, cancellationToken);
+        return await _dbContext.Transactions.ToListAsync(cancellationToken);
     }
 
     public async Task<Transactions> GetTransaction(int id)

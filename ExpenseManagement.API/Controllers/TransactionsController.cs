@@ -17,11 +17,13 @@ namespace Application.Controllers
         protected APIResponse _response;
         private readonly ITransactionRepository _repository;
         private readonly IMapper _mapper;
+        private readonly ICategoryRepository _categoryRepository;
 
-        public TransactionsController(ITransactionRepository repository, IMapper mapper)
+        public TransactionsController(ITransactionRepository repository, IMapper mapper, ICategoryRepository categoryRepository)
         {
             _repository = repository;
             _mapper = mapper;
+            _categoryRepository = categoryRepository;
             _response = new();
         }
 
@@ -59,36 +61,59 @@ namespace Application.Controllers
         [HttpGet]
         [ActionName("transactions")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
-        public async Task<IActionResult> GetTransactions()
+        public async Task<IActionResult> GetTransactions(CancellationToken cancellationToken)
         {
             try
             {
-                var results = await _repository.GetTransactions();
+                var results = await _repository.GetTransactions(cancellationToken);
+                var categories = await _categoryRepository.GetCategories(cancellationToken);
 
-                if (results is null)
+                if (results is null || categories is null)
                 {
                     _response.Data = null;
                     _response.StatusCode = HttpStatusCode.NotFound;
                     return NotFound(_response);
                 }
 
-                var transactions = _mapper.Map<List<TransactionDTO>>(results);
+                var transactions = MapTransactions(results, categories);
 
                 _response.Data = transactions;
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(transactions);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-                throw;
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok();
+        }
+
+        private IEnumerable<TransactionDTO> MapTransactions(IEnumerable<Transactions> results, IEnumerable<Categories> categories)
+        {
+            return from transaction in results
+                   join category in categories
+                   on transaction.CategoryId equals category.Id
+                   select new TransactionDTO
+                   {
+                       TransactionId = transaction.Id,
+                       Amount = transaction.Amount,
+                       Comment = transaction.Comment,
+                       Item = transaction.Item,
+                       Category = category.Title,
+                       CreatedDate = transaction.CreatedDate,
+                   };
         }
 
         [HttpGet]
         [ActionName("transactions/one")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
-        public async Task<IActionResult> GetTransaction(int id)
+        public async Task<IActionResult> GetTransaction(int id, CancellationToken cancellationToken)
         {
             try
             {
@@ -103,10 +128,16 @@ namespace Application.Controllers
 
                 return Ok(transaction);
             }
-            catch (Exception)
+            catch (OperationCanceledException)
             {
-                throw;
+
             }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
+            }
+            return Ok();
         }
 
         [HttpPut]

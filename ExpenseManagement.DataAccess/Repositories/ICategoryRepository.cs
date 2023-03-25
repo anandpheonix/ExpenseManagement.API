@@ -6,9 +6,9 @@ namespace DataAccess.Repositories
     {
         Task<Categories> AddCategory(Categories category);
 
-        Task<IEnumerable<Categories>> GetCategories();
+        Task<IEnumerable<Categories>> GetCategories(CancellationToken cancellationToken);
 
-        Task<Categories> GetCategory(int id);
+        Task<Categories> GetCategory(int id, CancellationToken cancellationToken);
 
         Task<Categories> UpdateCategory(int id, Categories category);
 
