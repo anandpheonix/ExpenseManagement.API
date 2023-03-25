@@ -26,7 +26,7 @@ namespace Application.Controllers
         }
 
         [HttpPost]
-        [ActionName("transaction/add")]
+        [ActionName("transactions/add")]
         public async Task<IActionResult> AddTransaction([FromBody] ExpenseRequest request)
         {
             try
@@ -47,7 +47,7 @@ namespace Application.Controllers
                 _response.Data = addedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return CreatedAtAction(nameof(GetTransaction), new { id = addedTransaction.TransactionId }, _response);
+                return CreatedAtAction(nameof(GetTransaction), new { id = addedTransaction.TransactionId }, addedTransaction);
             }
             catch (Exception)
             {
@@ -77,7 +77,7 @@ namespace Application.Controllers
                 _response.Data = transactions;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(_response);
+                return Ok(transactions);
             }
             catch (Exception)
             {
@@ -86,7 +86,7 @@ namespace Application.Controllers
         }
 
         [HttpGet]
-        [ActionName("transaction")]
+        [ActionName("transactions/one")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
         public async Task<IActionResult> GetTransaction(int id)
         {
@@ -101,7 +101,7 @@ namespace Application.Controllers
                 _response.Data = transaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(_response);
+                return Ok(transaction);
             }
             catch (Exception)
             {
@@ -110,7 +110,7 @@ namespace Application.Controllers
         }
 
         [HttpPut]
-        [ActionName("transaction/update")]
+        [ActionName("transactions/update")]
         public async Task<IActionResult> UpdateTransaction(int id, [FromBody] ExpenseRequest request)
         {
             try
@@ -132,7 +132,7 @@ namespace Application.Controllers
                 _response.Data = updatedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(_response);
+                return Ok(transaction);
             }
             catch (Exception)
             {
@@ -141,7 +141,7 @@ namespace Application.Controllers
         }
 
         [HttpDelete]
-        [ActionName("transaction/delete")]
+        [ActionName("transactions/delete")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
             try
@@ -155,7 +155,7 @@ namespace Application.Controllers
                 _response.Data = deletedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(_response);
+                return Ok(transaction);
             }
             catch (Exception)
             {

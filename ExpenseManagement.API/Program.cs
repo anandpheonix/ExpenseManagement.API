@@ -26,9 +26,11 @@ builder.Services.AddFluentValidationClientsideAdapters();
 builder.Services.AddValidatorsFromAssemblyContaining<Program>();
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+var corsPolicy = "myCorsPolicy";
+
 builder.Services.AddCors(
-    options => options.AddPolicy("corspolicy", 
-    build => build.WithOrigins("http://localhost:4200/").AllowAnyMethod().AllowAnyHeader()
+    options => options.AddPolicy(corsPolicy, 
+    policy => policy.WithOrigins("http://localhost:4200", "https://localhost:4200").AllowAnyMethod().AllowAnyHeader()
     )
 );
 
@@ -41,12 +43,12 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseCors("corspolicy");
-
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors(corsPolicy);
 
 app.Run();
