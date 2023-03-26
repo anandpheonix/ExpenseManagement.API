@@ -9,7 +9,7 @@ using System.Net;
 namespace Application.Controllers;
 
 [ApiController]
-[Route("api/[action]")]
+[Route("api/categories")]
 public class CategoryController : Controller, ICategoryController
 {
     protected APIResponse _response;
@@ -22,7 +22,6 @@ public class CategoryController : Controller, ICategoryController
     }
 
     [HttpPost]
-    [ActionName("category/add")]
     public async Task<IActionResult> AddCategory([FromBody] CategoryRequest request)
     {
         try
@@ -43,7 +42,6 @@ public class CategoryController : Controller, ICategoryController
     }
 
     [HttpGet]
-    [ActionName("categories")]
     [ResponseCache(CacheProfileName = "DefaultGet")]
     [ProducesResponseType(typeof(Categories), StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -77,8 +75,7 @@ public class CategoryController : Controller, ICategoryController
         return Ok();
     }
 
-    [HttpGet]
-    [ActionName("category")]
+    [HttpGet("{id}")]
     [ResponseCache(CacheProfileName = "DefaultGet")]
     public async Task<IActionResult> GetCategory(int id, CancellationToken cancellationToken)
     {
@@ -102,8 +99,7 @@ public class CategoryController : Controller, ICategoryController
         return Ok();
     }
 
-    [HttpPut]
-    [ActionName("category/update")]
+    [HttpPut("{id}")]
     public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequest request)
     {
         try
@@ -125,8 +121,7 @@ public class CategoryController : Controller, ICategoryController
         }
     }
 
-    [HttpDelete]
-    [ActionName("category/delete")]
+    [HttpDelete("{id}")]
     public async Task<IActionResult> DeleteCategory(int id)
     {
         try

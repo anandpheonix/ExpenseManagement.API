@@ -49,7 +49,7 @@ public class TransactionRepository : ITransactionRepository
 
         await _dbContext.SaveChangesAsync();
 
-        return transaction;
+        return existingtransaction;
     }
 
     public async Task<Transactions> DeleteTransaction(int id)

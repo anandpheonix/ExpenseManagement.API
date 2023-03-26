@@ -4,14 +4,12 @@ using Common;
 using DataAccess.Repositories;
 using DataTransfer.Requests;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Linq;
 using System.Net;
 
 namespace Application.Controllers;
 
 [ApiController]
-[Route("auth/[action]")]
+[Route("api/auth/[action]")]
 public class AuthController : Controller, IAuthController
 {
     protected APIResponse _response;
@@ -22,12 +20,12 @@ public class AuthController : Controller, IAuthController
     {
         _userRepository = userRepository;
         _tokenHandler = tokenHandler;
-        _response = new ();
+        _response = new();
     }
 
     [HttpPost]
-    [ActionName("login")]
-    public async Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken)
+    [ActionName("token")]
+    public async Task<IActionResult> GenerateToken(LoginRequest request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.AuthenticateUser(request.UserName, request.Password);
 

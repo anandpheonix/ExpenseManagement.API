@@ -5,5 +5,5 @@ namespace Application.Controllers.Interfaces;
 
 public interface IAuthController
 {
-    Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken);
+    Task<IActionResult> GenerateToken(LoginRequest request, CancellationToken cancellationToken);
 }

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using DataAccess.Models;
 using DataTransfer.Objects;
+using DataTransfer.Requests;
 
 namespace Application.Mappings;
 
@@ -10,5 +11,7 @@ public class TransactionMapping: Profile
     {
         CreateMap<Transactions, TransactionDTO>()
         .ForMember(dest => dest.TransactionId, options => options.MapFrom(src => src.Id));
+
+        CreateMap<Transactions, ExpenseRequest>();
     }
 }

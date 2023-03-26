@@ -10,7 +10,7 @@ using System.Net;
 
 namespace Application.Controllers
 {
-    [Route("api/[action]")]
+    [Route("api/transactions")]
     [ApiController]
     public class TransactionsController : ControllerBase, ITransactionsController
     {
@@ -30,7 +30,6 @@ namespace Application.Controllers
         }
 
         [HttpPost]
-        [ActionName("transactions/add")]
         public async Task<IActionResult> AddTransaction([FromBody] ExpenseRequest request)
         {
             try
@@ -41,7 +40,8 @@ namespace Application.Controllers
                     Amount = request.Amount,
                     Comment = request.Comment,
                     CategoryId = request.CategoryId,
-                    CreatedBy = "Pheonix"
+                    CreatedBy = "Admin",
+                    CreatedDate = DateTime.Now,
                 };
 
                 transaction = await _repository.AddTransaction(transaction);
@@ -51,17 +51,16 @@ namespace Application.Controllers
                 _response.Data = addedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return CreatedAtAction(nameof(GetTransaction), new { id = addedTransaction.TransactionId }, addedTransaction);
+                return Ok(_response);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                _response.StatusCode = HttpStatusCode.InternalServerError;
-                throw;
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
         [HttpGet]
-        [ActionName("transactions")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
         public async Task<IActionResult> GetTransactions(CancellationToken cancellationToken)
         {
@@ -96,8 +95,7 @@ namespace Application.Controllers
             return Ok();
         }
 
-        [HttpGet]
-        [ActionName("transactions/one")]
+        [HttpGet("{id}")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
         public async Task<IActionResult> GetTransaction(int id, CancellationToken cancellationToken)
         {
@@ -127,11 +125,10 @@ namespace Application.Controllers
         }
 
         [HttpPut]
-        [ActionName("transactions/update")]
         public async Task<IActionResult> UpdateTransaction(int id, [FromBody] ExpenseRequest request)
         {
             try
-            {
+            {              
                 var transaction = new Transactions()
                 {
                     Item = request.Item,
@@ -151,14 +148,14 @@ namespace Application.Controllers
 
                 return Ok(transaction);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
-        [HttpDelete]
-        [ActionName("transactions/delete")]
+        [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
             try
@@ -174,9 +171,10 @@ namespace Application.Controllers
 
                 return Ok(transaction);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                Console.WriteLine(ex.ToString());
+                return StatusCode(StatusCodes.Status500InternalServerError);
             }
         }
 
