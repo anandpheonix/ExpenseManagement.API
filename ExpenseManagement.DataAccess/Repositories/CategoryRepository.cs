@@ -23,7 +23,6 @@ namespace DataAccess.Repositories
 
         public async Task<IEnumerable<Categories>> GetCategories(CancellationToken cancellationToken)
         {
-            await Task.Delay(3000, cancellationToken);
             return await _dbContext.Categories.ToListAsync(cancellationToken);
         }
 

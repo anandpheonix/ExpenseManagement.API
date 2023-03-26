@@ -21,6 +21,10 @@
       {
          "Name": "[dbo].[Transactions]",
          "ObjectType": 0
+      },
+      {
+         "Name": "[dbo].[Users]",
+         "ObjectType": 0
       }
    ],
    "UiHint": "ANANDOMEN16\\SQLEXPRESS.Expenses",

@@ -25,7 +25,6 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<IEnumerable<Transactions>> GetTransactions(CancellationToken cancellationToken)
     {
-        await Task.Delay(3000, cancellationToken);
         return await _dbContext.Transactions.ToListAsync(cancellationToken);
     }
 

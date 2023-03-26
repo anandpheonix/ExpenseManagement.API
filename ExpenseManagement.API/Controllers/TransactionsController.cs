@@ -14,10 +14,12 @@ namespace Application.Controllers
     [ApiController]
     public class TransactionsController : ControllerBase, ITransactionsController
     {
+        #region Global Object Declaration
         protected APIResponse _response;
         private readonly ITransactionRepository _repository;
         private readonly IMapper _mapper;
         private readonly ICategoryRepository _categoryRepository;
+        #endregion 
 
         public TransactionsController(ITransactionRepository repository, IMapper mapper, ICategoryRepository categoryRepository)
         {
@@ -92,22 +94,6 @@ namespace Application.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
             return Ok();
-        }
-
-        private IEnumerable<TransactionDTO> MapTransactions(IEnumerable<Transactions> results, IEnumerable<Categories> categories)
-        {
-            return from transaction in results
-                   join category in categories
-                   on transaction.CategoryId equals category.Id
-                   select new TransactionDTO
-                   {
-                       TransactionId = transaction.Id,
-                       Amount = transaction.Amount,
-                       Comment = transaction.Comment,
-                       Item = transaction.Item,
-                       Category = category.Title,
-                       CreatedDate = transaction.CreatedDate,
-                   };
         }
 
         [HttpGet]
@@ -193,5 +179,25 @@ namespace Application.Controllers
                 throw;
             }
         }
+
+        #region Helper Methods
+
+        private IEnumerable<TransactionDTO> MapTransactions(IEnumerable<Transactions> results, IEnumerable<Categories> categories)
+        {
+            return from transaction in results
+                   join category in categories
+                   on transaction.CategoryId equals category.Id
+                   select new TransactionDTO
+                   {
+                       TransactionId = transaction.Id,
+                       Amount = transaction.Amount,
+                       Comment = transaction.Comment,
+                       Item = transaction.Item,
+                       Category = category.Title,
+                       CreatedDate = transaction.CreatedDate,
+                   };
+        }
+
+        #endregion Helper Methods
     }
 }

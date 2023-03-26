@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using DataTransfer.Requests;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Application.Controllers.Interfaces;
 
 public interface IAuthController
 {
-    Task<IActionResult> Login();
+    Task<IActionResult> Login(LoginRequest request, CancellationToken cancellationToken);
 }
