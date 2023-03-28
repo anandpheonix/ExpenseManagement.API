@@ -11,7 +11,5 @@ public class TransactionMapping: Profile
     {
         CreateMap<Transactions, TransactionDTO>()
         .ForMember(dest => dest.TransactionId, options => options.MapFrom(src => src.Id));
-
-        CreateMap<Transactions, ExpenseRequest>();
     }
 }

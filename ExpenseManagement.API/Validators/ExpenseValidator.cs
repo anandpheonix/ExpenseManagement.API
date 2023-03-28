@@ -9,7 +9,7 @@ namespace Application.Validators
         {
             RuleFor(x => x.Item).NotEmpty().MaximumLength(50);
             RuleFor(x => x.Amount).NotEmpty().GreaterThan(0);
-            RuleFor(x => x.CategoryId).NotEmpty();
+            RuleFor(x => x.CategoryId).NotEmpty().GreaterThan(0);
         }
     }
 }

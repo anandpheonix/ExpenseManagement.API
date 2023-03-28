@@ -1,7 +1,7 @@
 ﻿using DataTransfer.Requests;
 using Microsoft.AspNetCore.Mvc;
 
-namespace Application.Controllers.Interfaces
+namespace Application.Controllers.IControllers
 {
     public interface ITransactionsController
     {

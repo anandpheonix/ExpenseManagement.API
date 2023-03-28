@@ -1,5 +1,5 @@
 ﻿using Application.Auth;
-using Application.Controllers.Interfaces;
+using Application.Controllers.IControllers;
 using Common;
 using DataAccess.Repositories;
 using DataTransfer.Requests;

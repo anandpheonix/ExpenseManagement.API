@@ -1,4 +1,4 @@
-﻿using Application.Controllers.Interfaces;
+﻿using Application.Controllers.IControllers;
 using Common;
 using DataAccess.Models;
 using DataAccess.Repositories;

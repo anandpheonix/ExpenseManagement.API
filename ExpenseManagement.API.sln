@@ -3,15 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.5.33516.290
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "ExpenseManagement.API\Application.csproj", "{3CA982CC-816B-4EBA-9EEB-86BFBDEA82FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Application", "ExpenseManagement.API\Application.csproj", "{3CA982CC-816B-4EBA-9EEB-86BFBDEA82FE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataAccess", "ExpenseManagement.DataAccess\DataAccess.csproj", "{833F25AA-4997-4FEA-82C9-971573CE90DD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataAccess", "ExpenseManagement.DataAccess\DataAccess.csproj", "{833F25AA-4997-4FEA-82C9-971573CE90DD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "UnitTests\Tests.csproj", "{6B3B4462-A5C3-4075-AD48-1F17BA5C50A2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Tests", "UnitTests\Tests.csproj", "{6B3B4462-A5C3-4075-AD48-1F17BA5C50A2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Common", "Common\Common.csproj", "{056A8817-F793-4D47-B3F4-3ED5A0284BF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Common", "Common\Common.csproj", "{056A8817-F793-4D47-B3F4-3ED5A0284BF3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{BDBE62F7-EDCA-49D8-83F6-19E49CB6135D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataTransfer", "DataTransfer\DataTransfer.csproj", "{BDBE62F7-EDCA-49D8-83F6-19E49CB6135D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
