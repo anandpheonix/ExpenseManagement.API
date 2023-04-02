@@ -35,9 +35,10 @@ public class CategoryController : Controller, ICategoryController
 
             return CreatedAtAction(nameof(category), new { id = category.Id }, category);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            Console.WriteLine(ex.ToString());
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -89,7 +90,7 @@ public class CategoryController : Controller, ICategoryController
         }
         catch (OperationCanceledException)
         {
-        
+
         }
         catch (Exception ex)
         {
@@ -115,9 +116,10 @@ public class CategoryController : Controller, ICategoryController
 
             return Ok(category);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            Console.WriteLine(ex.ToString());
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 
@@ -132,9 +134,9 @@ public class CategoryController : Controller, ICategoryController
 
             return Ok(category);
         }
-        catch (Exception)
+        catch (Exception ex)
         {
-            throw;
+            Console.WriteLine(ex.ToString()); return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }
