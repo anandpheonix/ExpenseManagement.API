@@ -136,7 +136,8 @@ public class CategoryController : Controller, ICategoryController
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString()); return StatusCode(StatusCodes.Status500InternalServerError);
+            Console.WriteLine(ex.ToString()); 
+            return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
 }

@@ -9,8 +9,11 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoFixture.AutoNSubstitute" Version="4.18.0" />
+    <PackageReference Include="Bogus" Version="34.0.2" />
     <PackageReference Include="FluentAssertions" Version="6.10.0" />
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="NSubstitute" Version="5.0.0" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,10 +28,6 @@
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
     <ProjectReference Include="..\ExpenseManagement.API\Application.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="ControllerTests\" />
   </ItemGroup>
 
 </Project>
