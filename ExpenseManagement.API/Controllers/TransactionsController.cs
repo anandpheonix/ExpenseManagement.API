@@ -124,7 +124,7 @@ namespace Application.Controllers
             return Ok();
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> UpdateTransaction(int id, [FromBody] ExpenseRequest request)
         {
             try

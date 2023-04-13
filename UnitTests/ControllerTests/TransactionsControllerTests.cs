@@ -1,7 +1,5 @@
 ﻿using Application.Controllers;
 using AutoMapper;
-using Bogus;
-using DataAccess.Models;
 using DataAccess.Repositories;
 using FluentAssertions;
 using NSubstitute;
@@ -25,12 +23,12 @@ public class TransactionsControllerTests
     [Fact]
     public async Task GetTransactions_Should_RetrieveTransactions()
     {
-        var transactionData = DataGenerator.GetTransactionsData();
+        var transactionData = DataGenerator.GetTransactionsData(10);
 
         _transactionRepository.GetTransactions(cancellationToken: CancellationToken.None)
             .Returns(transactionData);
 
-        var result = await transactionsController.GetTransactions( cancellationToken: CancellationToken.None );
+        var result = await transactionsController.GetTransactions(cancellationToken: CancellationToken.None);
 
         result.Should().NotBeNull();
     }

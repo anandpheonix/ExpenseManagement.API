@@ -5,23 +5,11 @@ GET https://localhost:7069/api/transactions
 Accept: application/json
 
 ###
-GET https://localhost:7069/api/transactions?id=1
+GET https://localhost:7069/api/transactions/1
 Accept: application/json
 
 ###
-POST https://localhost:7069/api/transactions/add
-Accept: application/json
-Content-Type:application/json
-
-{
-  "item": "Ticket",
-  "amount": 6969.96,
-  "categoryId": 11,
-  "comment": "Trip to Heaven"
-}
-
-###
-PUT https://localhost:7069/api/transactions/update?id=16
+POST https://localhost:7069/api/transactions
 Accept: application/json
 Content-Type:application/json
 
@@ -33,5 +21,17 @@ Content-Type:application/json
 }
 
 ###
-DELETE https://localhost:7069/api/transactions/delete?id=17
+PUT https://localhost:7069/api/transactions/update/16
+Accept: application/json
+Content-Type:application/json
+
+{
+  "item": "Ticket",
+  "amount": 6969.96,
+  "categoryId": 11,
+  "comment": "Trip to Heaven"
+}
+
+###
+DELETE https://localhost:7069/api/transactions/delete/17
 Accept: application/json
