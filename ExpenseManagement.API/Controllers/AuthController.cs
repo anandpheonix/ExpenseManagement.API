@@ -29,19 +29,19 @@ public class AuthController : Controller, IAuthController
     {
         var user = await _userRepository.AuthenticateUser(request.UserName, request.Password);
 
-        if (user.Item1 is not null)
+        if (user.Item1 is null)
         {
-            var token = await _tokenHandler.GenerateToken(user.Item1);
+            _response.StatusCode = HttpStatusCode.BadRequest;
+            _response.ErrorMessages = new List<string>() { user.Item2 };
 
-            _response.StatusCode = HttpStatusCode.OK;
-            _response.Data = token;
-
-            return Ok(_response);
+            return BadRequest(_response);
         }
 
-        _response.StatusCode = HttpStatusCode.BadRequest;
-        _response.ErrorMessages = new List<string>() { user.Item2 };
+        var token = await _tokenHandler.GenerateToken(user.Item1);
 
-        return BadRequest(_response);
+        _response.StatusCode = HttpStatusCode.OK;
+        _response.Data = token;
+
+        return Ok(_response);
     }
 }

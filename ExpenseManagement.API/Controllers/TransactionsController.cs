@@ -101,7 +101,7 @@ namespace Application.Controllers
         {
             try
             {
-                var result = await _repository.GetTransaction(id);
+                var result = await _repository.GetTransaction(id, cancellationToken);
 
                 if (result is null) return NotFound();
 

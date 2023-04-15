@@ -3,9 +3,9 @@ using DataAccess.Models;
 
 namespace Tests;
 
-public class DataGenerator
+public static class DataGenerator
 {
-    public static IEnumerable<Transactions> GetTransactionsData(int count)
+    public static IEnumerable<Transactions> TransactionsData(int count)
     {
         var dataRule = new Faker<Transactions>()
             .RuleFor(x => x.Id, f => f.Random.Number(1, 10))

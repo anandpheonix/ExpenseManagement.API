@@ -28,9 +28,9 @@ public class TransactionRepository : ITransactionRepository
         return await _dbContext.Transactions.ToListAsync(cancellationToken);
     }
 
-    public async Task<Transactions> GetTransaction(int id)
+    public async Task<Transactions> GetTransaction(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Transactions.FirstOrDefaultAsync(x => x.Id == id);
+        return await _dbContext.Transactions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<Transactions> UpdateTransaction(int id, Transactions transaction)

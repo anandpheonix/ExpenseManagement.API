@@ -28,7 +28,7 @@ public class UserRepository : IUserRepository
             return new Tuple<Users, string>(null, InvalidPassword);
         }
 
-        if (user.IsActive == false)
+        if (user.IsActive is false)
         {
             return new Tuple<Users, string>(null, InactiveUser);
         }

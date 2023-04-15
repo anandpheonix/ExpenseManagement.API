@@ -23,10 +23,13 @@ public class TransactionsControllerTests
     [Fact]
     public async Task GetTransactions_Should_RetrieveTransactions()
     {
-        var transactionData = DataGenerator.GetTransactionsData(10);
+        #region mock dependencies
+        var transactionData = DataGenerator.TransactionsData(10);
 
-        _transactionRepository.GetTransactions(cancellationToken: CancellationToken.None)
+        _transactionRepository
+            .GetTransactions(cancellationToken: CancellationToken.None)
             .Returns(transactionData);
+        #endregion
 
         var result = await transactionsController.GetTransactions(cancellationToken: CancellationToken.None);
 
