@@ -1,7 +1,7 @@
-﻿using static Common.UserDefinedConstants;
+﻿using DataAccess.DBContext;
 using DataAccess.Models;
 using Microsoft.EntityFrameworkCore;
-using DataAccess.DBContext;
+using static Common.UserDefinedConstants;
 
 namespace DataAccess.Repositories;
 
@@ -18,9 +18,9 @@ public class UserRepository : IUserRepository
     {
         var user = await dbContext.Users.FirstOrDefaultAsync(x => x.Name == username);
 
-        if (user is null) 
-        { 
-            return new Tuple<Users, string>(null, InvalidUser); 
+        if (user is null)
+        {
+            return new Tuple<Users, string>(null, InvalidUser);
         }
 
         if (user.Password != password)

@@ -85,14 +85,13 @@ namespace Application.Controllers
             }
             catch (OperationCanceledException)
             {
-
+                return Ok();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return Ok();
         }
 
         [HttpGet("{id}")]
@@ -114,14 +113,13 @@ namespace Application.Controllers
             }
             catch (OperationCanceledException)
             {
-
+                return Ok();
             }
             catch (Exception ex)
             {
                 Console.WriteLine(ex.ToString());
                 return StatusCode(StatusCodes.Status500InternalServerError);
             }
-            return Ok();
         }
 
         [HttpPut("{id}")]

@@ -11,7 +11,7 @@ public static class DataGenerator
             .RuleFor(x => x.Id, f => f.Random.Number(1, 10))
             .RuleFor(x => x.CategoryId, f => f.Random.Number(1, 10))
             .RuleFor(x => x.Amount, f => (double)f.Finance.Amount(1, 800, 2));
-        
+
         return dataRule.Generate(count);
     }
 }

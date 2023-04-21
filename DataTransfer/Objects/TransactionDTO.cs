@@ -1,5 +1,4 @@
-﻿
-namespace DataTransfer.Objects;
+﻿namespace DataTransfer.Objects;
 
 public class TransactionDTO
 {

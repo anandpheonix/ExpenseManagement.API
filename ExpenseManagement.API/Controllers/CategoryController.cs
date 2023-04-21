@@ -66,14 +66,13 @@ public class CategoryController : Controller, ICategoryController
         }
         catch (OperationCanceledException)
         {
-
+            return Ok();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
-        return Ok();
     }
 
     [HttpGet("{id}")]
@@ -90,14 +89,13 @@ public class CategoryController : Controller, ICategoryController
         }
         catch (OperationCanceledException)
         {
-
+            return Ok();
         }
         catch (Exception ex)
         {
             Console.WriteLine(ex.ToString());
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
-        return Ok();
     }
 
     [HttpPut("{id}")]
@@ -136,7 +134,7 @@ public class CategoryController : Controller, ICategoryController
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString()); 
+            Console.WriteLine(ex.ToString());
             return StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
