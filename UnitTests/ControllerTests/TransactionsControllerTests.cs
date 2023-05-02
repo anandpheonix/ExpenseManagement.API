@@ -7,6 +7,8 @@ using NSubstitute;
 namespace Tests.ControllerTests;
 public class TransactionsControllerTests
 {
+    #region Global Object Declaration
+
     private readonly TransactionsController transactionsController;
     private readonly ITransactionRepository _transactionRepository;
     private readonly IMapper _mapper;
@@ -20,6 +22,8 @@ public class TransactionsControllerTests
         transactionsController = new(_transactionRepository, _mapper, _categoryRepository);
     }
 
+    #endregion
+
     [Fact]
     public async Task GetTransactions_Should_RetrieveTransactions()
     {
@@ -31,7 +35,7 @@ public class TransactionsControllerTests
             .Returns(transactionData);
         #endregion
 
-        var result = await transactionsController.GetTransactions(cancellationToken: CancellationToken.None);
+        var result = await transactionsController.GetTransactions(CancellationToken.None);
 
         result.Should().NotBeNull();
     }

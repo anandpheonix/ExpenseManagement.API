@@ -23,12 +23,12 @@ public class TransactionRepository : ITransactionRepository
 
     public async Task<IEnumerable<Transactions>> GetTransactions(CancellationToken cancellationToken)
     {
-        return await _dbContext.Transactions.ToListAsync(cancellationToken);
+        return await _dbContext.Transactions.AsNoTracking().ToListAsync(cancellationToken);
     }
 
     public async Task<Transactions> GetTransaction(int id, CancellationToken cancellationToken)
     {
-        return await _dbContext.Transactions.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+        return await _dbContext.Transactions.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
     }
 
     public async Task<Transactions> UpdateTransaction(int id, Transactions transaction)

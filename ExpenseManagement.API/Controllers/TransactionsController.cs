@@ -5,13 +5,15 @@ using DataAccess.Models;
 using DataAccess.Repositories;
 using DataTransfer.Objects;
 using DataTransfer.Requests;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
 namespace Application.Controllers
 {
-    [Route("api/transactions")]
+    [Authorize]
     [ApiController]
+    [Route("api/transactions")]
     public class TransactionsController : ControllerBase, ITransactionsController
     {
         #region Global Object Declaration
@@ -30,6 +32,7 @@ namespace Application.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Write")]
         public async Task<IActionResult> AddTransaction([FromBody] ExpenseRequest request)
         {
             try
@@ -61,6 +64,7 @@ namespace Application.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Write")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
         public async Task<IActionResult> GetTransactions(CancellationToken cancellationToken)
         {
@@ -81,7 +85,7 @@ namespace Application.Controllers
                 _response.Data = transactions;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(transactions);
+                return Ok(_response);
             }
             catch (OperationCanceledException)
             {
@@ -95,6 +99,7 @@ namespace Application.Controllers
         }
 
         [HttpGet("{id}")]
+        [Authorize(Roles = "Write")]
         [ResponseCache(CacheProfileName = "DefaultGet")]
         public async Task<IActionResult> GetTransaction(int id, CancellationToken cancellationToken)
         {
@@ -109,7 +114,7 @@ namespace Application.Controllers
                 _response.Data = transaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(transaction);
+                return Ok(_response);
             }
             catch (OperationCanceledException)
             {
@@ -123,6 +128,7 @@ namespace Application.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Write")]
         public async Task<IActionResult> UpdateTransaction(int id, [FromBody] ExpenseRequest request)
         {
             try
@@ -144,7 +150,7 @@ namespace Application.Controllers
                 _response.Data = updatedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(transaction);
+                return Ok(_response);
             }
             catch (Exception ex)
             {
@@ -154,6 +160,7 @@ namespace Application.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Write")]
         public async Task<IActionResult> DeleteTransaction(int id)
         {
             try
@@ -167,7 +174,7 @@ namespace Application.Controllers
                 _response.Data = deletedTransaction;
                 _response.StatusCode = HttpStatusCode.OK;
 
-                return Ok(transaction);
+                return Ok(_response);
             }
             catch (Exception ex)
             {

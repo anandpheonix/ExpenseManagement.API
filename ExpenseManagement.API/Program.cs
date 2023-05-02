@@ -1,95 +1,112 @@
-using FluentValidation.AspNetCore;
-using FluentValidation;
-using Microsoft.EntityFrameworkCore;
+using Application.Auth;
 using DataAccess.DBContext;
 using DataAccess.Repositories;
-using Microsoft.AspNetCore.Mvc;
+using FluentValidation;
+using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using System.Text;
-using Application.Auth;
 
-var builder = WebApplication.CreateBuilder(args);
+namespace Application;
 
-builder.Services.AddDbContext<ExpensesContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Expenses")));
-builder.Services.AddResponseCaching();
-
-builder.Services.AddControllers(options =>
+public class Program
 {
-    options.CacheProfiles.Add("DefaultGet", new CacheProfile() { Duration = 30 });
-}); 
+    private static readonly string corsPolicy = "myCorsPolicy";
+    protected Program() { }
 
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(options =>
-{
-    var securityScheme = new OpenApiSecurityScheme
+    public static void Main(string[] args)
     {
-        Name = "JWT Authentication",
-        Description = "Enter a valid token",
-        In = ParameterLocation.Header,
-        Type = SecuritySchemeType.Http,
-        Scheme = "bearer",
-        BearerFormat = "JWT",
-        Reference = new OpenApiReference
+        var builder = WebApplication.CreateBuilder(args);
+
+        ConfigureService(builder);
+
+        var app = builder.Build();
+
+        if (app.Environment.IsDevelopment())
         {
-            Id = JwtBearerDefaults.AuthenticationScheme,
-            Type = ReferenceType.SecurityScheme
+            app.UseSwagger();
+            app.UseSwaggerUI();
         }
-    };
 
-    options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
-    options.AddSecurityRequirement(new OpenApiSecurityRequirement
+        app.UseHttpsRedirection();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+        app.MapControllers();
+
+        app.UseCors(corsPolicy);
+
+        app.Run();
+
+    }
+
+    private static void ConfigureService(WebApplicationBuilder builder)
     {
-        { securityScheme, Array.Empty<string>() }
-    });
-});
+        builder.Services.AddDbContext<ExpensesContext>(options => options.UseSqlServer(builder.Configuration.GetConnectionString("Expenses")));
+        builder.Services.AddResponseCaching();
 
-builder.Services.AddScoped<ITokenHandler, Application.Auth.TokenHandler>();
+        builder.Services.AddControllers(options =>
+        {
+            options.CacheProfiles.Add("DefaultGet", new CacheProfile() { Duration = 30 });
+        });
 
-builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
-builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+        builder.Services.AddEndpointsApiExplorer();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            var securityScheme = new OpenApiSecurityScheme
+            {
+                Name = "JWT Authentication",
+                Description = "Enter a valid token",
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.Http,
+                Scheme = "bearer",
+                BearerFormat = "JWT",
+                Reference = new OpenApiReference
+                {
+                    Id = JwtBearerDefaults.AuthenticationScheme,
+                    Type = ReferenceType.SecurityScheme
+                }
+            };
 
-builder.Services.AddFluentValidationAutoValidation();
-builder.Services.AddFluentValidationClientsideAdapters();
-builder.Services.AddValidatorsFromAssemblyContaining<Program>();
-builder.Services.AddAutoMapper(typeof(Program).Assembly);
+            options.AddSecurityDefinition(securityScheme.Reference.Id, securityScheme);
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    { securityScheme, Array.Empty<string>() }
+                });
+            });
 
-var corsPolicy = "myCorsPolicy";
+        builder.Services.AddScoped<ITokenHandler, Auth.TokenHandler>();
 
-builder.Services.AddCors(
-    options => options.AddPolicy(corsPolicy, 
-    policy => policy.WithOrigins(builder.Configuration["TrustedOrigins"]).AllowAnyMethod().AllowAnyHeader())
-);
+        builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+        builder.Services.AddScoped<ITransactionRepository, TransactionRepository>();
+        builder.Services.AddScoped<IUserRepository, UserRepository>();
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-    .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
-    {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["Jwt:Issuer"],
-        ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
-    });
+        builder.Services.AddFluentValidationAutoValidation();
+        builder.Services.AddFluentValidationClientsideAdapters();
+        builder.Services.AddValidatorsFromAssemblyContaining<Program>();
+        builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
+        builder.Services.AddCors(
+            options => options.AddPolicy(corsPolicy,
+            policy => policy.WithOrigins(builder.Configuration["TrustedOrigins"]).AllowAnyMethod().AllowAnyHeader())
+        );
 
-var app = builder.Build();
+        builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(options => options.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = builder.Configuration["Jwt:Issuer"],
+                ValidAudience = builder.Configuration["Jwt:Audience"],
+                IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
+            });
+    }
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.UseCors(corsPolicy);
-
-app.Run();

@@ -32,8 +32,8 @@ public class TokenHandler : ITokenHandler
 
         var configKey = configuration["Jwt:Key"];
         if (configKey is null) 
-        { 
-            throw new ArgumentNullException(nameof(configKey)); 
+        {
+            ArgumentNullException.ThrowIfNull(configKey);
         }
 
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configKey));

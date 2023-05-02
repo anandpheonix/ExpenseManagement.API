@@ -10,7 +10,7 @@ namespace DataAccess.Repositories
 
         public CategoryRepository(ExpensesContext dbContext)
         {
-            this._dbContext = dbContext;
+            _dbContext = dbContext;
         }
 
         public async Task<Categories> AddCategory(Categories category)
@@ -23,12 +23,12 @@ namespace DataAccess.Repositories
 
         public async Task<IEnumerable<Categories>> GetCategories(CancellationToken cancellationToken)
         {
-            return await _dbContext.Categories.ToListAsync(cancellationToken);
+            return await _dbContext.Categories.AsNoTracking().ToListAsync(cancellationToken);
         }
 
         public async Task<Categories> GetCategory(int id, CancellationToken cancellationToken)
         {
-            return await _dbContext.Categories.FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
+            return await _dbContext.Categories.AsNoTracking().FirstOrDefaultAsync(x => x.Id == id, cancellationToken);
         }
 
         public async Task<Categories> UpdateCategory(int id, Categories category)
