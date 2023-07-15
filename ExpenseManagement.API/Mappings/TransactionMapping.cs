@@ -1,11 +1,10 @@
 ﻿using AutoMapper;
 using DataAccess.Models;
 using DataTransfer.Objects;
-using DataTransfer.Requests;
 
 namespace Application.Mappings;
 
-public class TransactionMapping: Profile
+public class TransactionMapping : Profile
 {
     public TransactionMapping()
     {

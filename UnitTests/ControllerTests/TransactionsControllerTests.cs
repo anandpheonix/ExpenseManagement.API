@@ -1,10 +1,9 @@
 ﻿using Application.Controllers;
 using AutoMapper;
 using DataAccess.Repositories;
-using FluentAssertions;
-using NSubstitute;
 
 namespace Tests.ControllerTests;
+
 public class TransactionsControllerTests
 {
     #region Global Object Declaration
@@ -38,5 +37,6 @@ public class TransactionsControllerTests
         var result = await transactionsController.GetTransactions(CancellationToken.None);
 
         result.Should().NotBeNull();
+
     }
 }
